@@ -1,26 +1,42 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, TextInput } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: ''
-    }
+  state = {
+    state: ''
+  }
+
+  shopNow = () => {
+    const { state } = this.state;
+    Alert.alert(` You entered the state name ${state}`);
+    const weather = `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
+    console.log(weather, 'weather')
+  }
+
+  handleChange = (state) => {
+    console.log({ state })
+    this.setState({ state })
   }
 
   render() {
-    let pic = {
-      uri: 'https://i2.wp.com/infoguidenigeria.com/wp-content/uploads/2017/04/Newspaper.png?resize=600%2C414&ssl=1'
-    }
+    // let api = {
+    //   uri: `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
+    // }
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.textinput}
-          placeholder="Please enter your name"
-          onChange={(name) => { this.setState({ name }) }}
-        />
+        <View>
+          <TextInput
+            placeholder="Enter A State Name"
+            onChangeText={this.handleChange}
+            value={this.state.state}
+          />
+
+          <Button
+            title="Predict Weather"
+            onPress={this.shopNow}
+          />
+        </View>
       </View>
     );
   }
@@ -28,7 +44,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.3,
+    flex: 1,
     justifyContent: 'center',
     padding: 20,
     // alignItems: 'center',
@@ -38,5 +54,9 @@ const styles = StyleSheet.create({
     color: 'red',
     borderBottomColor: 'black',
     height: 20
+  },
+  shopNowButton: {
+    backgroundColor: '#9CFF33',
+    color: '#9CFF33',
   }
 });
