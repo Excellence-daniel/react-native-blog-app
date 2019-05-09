@@ -20,9 +20,6 @@ export default class App extends Component {
   }
 
   render() {
-    // let api = {
-    //   uri: `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
-    // }
     return (
       <View style={styles.container}>
         <View>
