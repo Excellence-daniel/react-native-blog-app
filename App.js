@@ -39,8 +39,10 @@ export default class App extends Component {
             title="Predict Weather"
             onPress={this.shopNow}
           />
+          <View style={styles.weatherResult}>
+            <Text> State : {(weather.location && weather.location.name) || ''} </Text>
+          </View>
 
-          <Text> State : {(weather.location && weather.location.name) || 'No State'} </Text>
         </View>
       </View>
     );
@@ -63,5 +65,8 @@ const styles = StyleSheet.create({
   shopNowButton: {
     backgroundColor: '#9CFF33',
     color: '#9CFF33',
+  },
+  weatherResult: {
+    marginTop: 10,
   }
 });
