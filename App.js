@@ -15,8 +15,8 @@ export default class App extends Component {
   }
 
   handleChange = (state) => {
-    console.log({ state })
-    this.setState({ state })
+    console.log({ state });
+    this.setState({ state });
   }
 
   render() {
