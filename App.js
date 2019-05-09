@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Alert, Platform, StyleSheet, Text, View, Button, TextInput } from 'react-native';
-
+import axios from 'axios';
 
 export default class App extends Component {
   state = {
-    state: ''
+    state: '',
+    weather: {}
   }
 
-  shopNow = () => {
+  shopNow = async () => {
     const { state } = this.state;
     Alert.alert(` You entered the state name ${state}`);
-    const weather = `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
-    console.log(weather, 'weather')
+    const url = `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
+    const weather = await axios.post(url);
+    // console.log(predict, 'State Wather')
+    this.setState({ weather: weather.data });
+    console.log(this.state.weather, 'wather state')
   }
 
   handleChange = (state) => {
@@ -20,6 +24,8 @@ export default class App extends Component {
   }
 
   render() {
+    const { weather } = this.state;
+    console.log(weather, 'weather to prrree')
     return (
       <View style={styles.container}>
         <View>
@@ -33,6 +39,8 @@ export default class App extends Component {
             title="Predict Weather"
             onPress={this.shopNow}
           />
+
+          <Text> State : {(weather.location && weather.location.name) || 'No State'} </Text>
         </View>
       </View>
     );
