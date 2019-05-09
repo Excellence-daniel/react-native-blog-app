@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Platform, StyleSheet, Text, View, Button, TextInput, ActivityIndicator } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View, Button, TextInput, ActivityIndicator, Image } from 'react-native';
 import axios from 'axios';
 
 export default class App extends Component {
@@ -48,6 +48,14 @@ export default class App extends Component {
 
           <View style={styles.weatherResult}>
             <Text style={styles.weatherStyle}> State : {(weather.location && weather.location.name) || ''} </Text>
+            <Text style={styles.weatherStyle}> Date / Time : {(weather.location && weather.location.localtime) || ''}</Text>
+            <Text style={styles.weatherStyle}> Temperature (C) : {(weather.current && weather.current.temp_c) || ''}</Text>
+            <Text style={styles.weatherStyle}> Temperature (F) : {(weather.current && weather.current.temp_f) || ''}</Text>
+            <Text style={styles.weatherStyle}> Weather Status : {(weather.current && weather.current.condition.text) || ''}</Text>
+            <Text style={styles.weatherStyle}> Weather Status Image : <Image source={(weather.current && weather.current.condition.icon) || ''} /></Text>
+            <Text style={styles.weatherStyle}> Humidity : {(weather.current && weather.current.humidity) || ''}</Text>
+
+
           </View>
 
         </View>
@@ -78,6 +86,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   weatherStyle: {
-    fontWeight: "bold"
+    fontWeight: "bold",
+    padding: 5
   }
 });
