@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import { Alert, Platform, StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, View, Button, TextInput, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 
 export default class App extends Component {
   state = {
     state: '',
-    weather: {}
+    weather: {},
+    loading: false
   }
 
-  shopNow = async () => {
+  predictWeather = async () => {
     const { state } = this.state;
-    Alert.alert(` You entered the state name ${state}`);
-    const url = `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
-    const weather = await axios.post(url);
-    // console.log(predict, 'State Wather')
-    this.setState({ weather: weather.data });
-    console.log(this.state.weather, 'wather state')
+    this.setState({ loading: true })
+    if (state !== '') {
+      // Alert.alert(` You entered the state name ${state}`);
+      const url = `http://api.apixu.com/v1/current.json?key=6b73dc4dbb9c4dee84b130022192201&q=${state}`
+      const weather = await axios.post(url);
+      this.setState({ weather: weather.data, loading: false });
+    } else {
+      alert("Enter a Valid State Name");
+      this.setState({ loading: false })
+    }
   }
 
   handleChange = (state) => {
@@ -24,7 +29,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { weather } = this.state;
+    const { weather, loading } = this.state;
     console.log(weather, 'weather to prrree')
     return (
       <View style={styles.container}>
@@ -37,10 +42,12 @@ export default class App extends Component {
 
           <Button
             title="Predict Weather"
-            onPress={this.shopNow}
+            onPress={this.predictWeather}
           />
+          <View>{loading ? <ActivityIndicator style={{ marginTop: 20 }} size="small" color="#00ff00" /> : <Text></Text>}</View>
+
           <View style={styles.weatherResult}>
-            <Text> State : {(weather.location && weather.location.name) || ''} </Text>
+            <Text style={styles.weatherStyle}> State : {(weather.location && weather.location.name) || ''} </Text>
           </View>
 
         </View>
@@ -68,5 +75,9 @@ const styles = StyleSheet.create({
   },
   weatherResult: {
     marginTop: 10,
+    padding: 10
+  },
+  weatherStyle: {
+    fontWeight: "bold"
   }
 });
